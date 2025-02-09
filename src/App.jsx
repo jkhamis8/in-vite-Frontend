@@ -1,9 +1,19 @@
 import { useEffect, useState } from 'react'
 import { Routes, Route ,useNavigate} from "react-router-dom"
-
+import * as authService from '../src/services/authService';
 import SignIn from "./pages/SignIn"
+import SignUp from "./pages/SignUp"
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [user, setUser] = useState(authService.getUser());
+  const navigate = useNavigate()
+  const handleSignout = () => {
+    navigate('/')
+    authService.signout()
+    setUser(null)
+    }
+
+
 
   return (
     <>
