@@ -7,6 +7,12 @@ import DefaultLayout from './layout/DefaultLayout'
 
 function App() {
   const [user, setUser] = useState(authService.getUser())
+  const [events, setEvents] = useState([])
+  useEffect(() => {
+    const getEvents = async () => {
+      //get events from DB
+    }
+  }, [])
   const navigate = useNavigate()
   const handleSignout = () => {
     navigate('/')
