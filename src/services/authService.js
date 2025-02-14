@@ -1,38 +1,38 @@
-const BACKEND_URL = import.meta.env.VITE_EXPRESS_BACKEND_URL;
+import { useNavigate } from 'react-router-dom'
+
+const BACKEND_URL = import.meta.env.VITE_EXPRESS_BACKEND_URL
 
 const signup = async (formData) => {
   try {
     const res = await fetch(`${BACKEND_URL}/user/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
-    const json = await res.json();
+      body: JSON.stringify(formData)
+    })
+    const json = await res.json()
     if (json.err) {
-      throw new Error(json.err);
+      throw new Error(json.err)
     }
-    return json;
+    return json
   } catch (err) {
-    console.log(err);
-    throw err;
+    console.log(err)
+    throw err
   }
-};
-
-// src/services/authService.js
+}
 
 const signin = async (user) => {
   try {
     const res = await fetch(`${BACKEND_URL}/user/signin`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(user),
+      body: JSON.stringify(user)
     })
     const json = await res.json()
 
     if (json.token) {
-      localStorage.setItem('token', json.token); // add this line to store the JWT token in localStorage
+      localStorage.setItem('token', json.token) // add this line to store the JWT token in localStorage
 
-      const user = JSON.parse(atob(json.token.split('.')[1]));
+      const user = JSON.parse(atob(json.token.split('.')[1]))
 
       return user
     }
@@ -48,10 +48,10 @@ const signin = async (user) => {
 }
 
 const getUser = () => {
-  const token = localStorage.getItem('token');
-  if (!token) return null;
-  const user = JSON.parse(atob(token.split('.')[1]));
-  return user;
+  const token = localStorage.getItem('token')
+  if (!token) return null
+  const user = JSON.parse(atob(token.split('.')[1]))
+  return user
 }
 
 const editUserProfile = async (formData) => {
@@ -59,22 +59,21 @@ const editUserProfile = async (formData) => {
     const res = await fetch(`${BACKEND_URL}/user/editUserProfile`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
-    const json = await res.json();
+      body: JSON.stringify(formData)
+    })
+    const json = await res.json()
     if (json.err) {
-      throw new Error(json.err);
+      throw new Error(json.err)
     }
-    return json;
+    return json
   } catch (err) {
-    console.log(err);
-    throw err;
+    console.log(err)
+    throw err
   }
-};
-
+}
 
 const signout = () => {
-  localStorage.removeItem('token');
-};
+  localStorage.clear()
+}
 
-export { signup, signin, getUser, signout, editUserProfile };
+export { signup, signin, getUser, signout, editUserProfile }

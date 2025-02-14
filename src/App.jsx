@@ -4,21 +4,19 @@ import * as authService from '../src/services/authService'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import DefaultLayout from './layout/DefaultLayout'
+import Home from './pages/Home'
+import Profile from './pages/Profile'
 
 function App() {
   const [user, setUser] = useState(authService.getUser())
   const [events, setEvents] = useState([])
+
   useEffect(() => {
     const getEvents = async () => {
       //get events from DB
     }
   }, [])
   const navigate = useNavigate()
-  const handleSignout = () => {
-    navigate('/')
-    authService.signout()
-    setUser(null)
-  }
 
   return (
     <>
@@ -29,13 +27,15 @@ function App() {
               <Route path="/" element={<Home user={user} />} />
               <Route
                 path="/profile"
-                element={<Profile user={user} handleSignout={handleSignout} />}
+                element={
+                  <Profile user={user} handleLogout={authService.signout} />
+                }
               />
               <Route
                 path="/editProfile"
-                element={
-                  <ProfileForm user={user} handleSignout={handleSignout} />
-                }
+                // element={
+                //   <ProfileForm user={user} handleLogout={logOut} />
+                // }
               />
               <Route path="*" element={<h3>Page Not Found</h3>} />
             </Routes>
