@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const CheckboxFour = () => {
+const CheckboxFour = ({text}) => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
   return (
@@ -32,7 +32,7 @@ const CheckboxFour = () => {
             </span>
           </div>
         </div>
-        Checkbox Text
+        {text}
       </label>
     </div>
   );

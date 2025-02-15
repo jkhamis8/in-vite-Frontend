@@ -26,6 +26,8 @@ const SignIn = (props) => {
         })
       } else {
         props.setUser(user)
+        console.log(user)
+
         navigate('/')
       }
     } catch (error) {

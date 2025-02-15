@@ -6,9 +6,12 @@ import SignUp from './pages/SignUp'
 import DefaultLayout from './layout/DefaultLayout'
 import Home from './pages/Home'
 import Profile from './pages/Profile'
+import NewEvent from './pages/NewEvent'
 
 function App() {
   const [user, setUser] = useState(authService.getUser())
+  console.log('App User: ', user)
+
   const [events, setEvents] = useState([])
 
   useEffect(() => {
@@ -24,7 +27,7 @@ function App() {
         {authService.getUser() != null ? (
           <DefaultLayout>
             <Routes>
-              <Route path="/" element={<Home user={user} />} />
+              <Route path="/" element={<Home events={events} user={user} />} />
               <Route
                 path="/profile"
                 element={
@@ -37,6 +40,7 @@ function App() {
                 //   <ProfileForm user={user} handleLogout={logOut} />
                 // }
               />
+              <Route path="/CreateEvent" element={<NewEvent user={user} />} />
               <Route path="*" element={<h3>Page Not Found</h3>} />
             </Routes>
           </DefaultLayout>
