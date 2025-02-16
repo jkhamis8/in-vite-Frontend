@@ -1,3 +1,4 @@
+import index from 'jsvectormap';
 import React, { useState, useEffect, useRef } from 'react';
 
 interface Option {
@@ -11,7 +12,7 @@ interface DropdownProps {
   id: string;
 }
 
-const MultiSelect: React.FC<DropdownProps> = ({ id }) => {
+const MultiSelect: React.FC<DropdownProps> = ({ id, listLabel, list }) => {
   const [options, setOptions] = useState<Option[]>([]);
   const [selected, setSelected] = useState<number[]>([]);
   const [show, setShow] = useState(false);
@@ -96,14 +97,14 @@ const MultiSelect: React.FC<DropdownProps> = ({ id }) => {
   return (
     <div className="relative z-50">
       <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-        Multiselect Dropdown
+        {listLabel}
       </label>
       <div>
         <select className="hidden" id={id}>
-          <option value="1">Option 2</option>
-          <option value="2">Option 3</option>
-          <option value="3">Option 4</option>
-          <option value="4">Option 5</option>
+          {list?.map((item)=>(
+            <option key={item._id} value={item._id}>{item.fullName}</option>
+          ))}
+          
         </select>
 
         <div className="flex flex-col items-center">

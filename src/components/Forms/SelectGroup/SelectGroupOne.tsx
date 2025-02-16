@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const SelectGroupOne: React.FC = ({ list }) => {
+const SelectGroupOne: React.FC = ({ list, onChange }) => {
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
 
@@ -13,10 +13,12 @@ const SelectGroupOne: React.FC = ({ list }) => {
 
       <div className="relative z-20 bg-transparent dark:bg-form-input">
         <select
+          
           value={selectedOption}
           onChange={(e) => {
             setSelectedOption(e.target.value);
             changeTextColor();
+            onChange(e)
           }}
           className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary ${
             isOptionSelected ? 'text-black dark:text-white' : ''

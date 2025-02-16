@@ -76,4 +76,18 @@ const signout = () => {
   localStorage.clear()
 }
 
-export { signup, signin, getUser, signout, editUserProfile }
+const getRepresentatives = async (id) => {
+  try {
+    const res = await fetch(`${BACKEND_URL}/user/getRepresentatives/${id}`)
+    const json = await res.json()
+    if (json.err) {
+      throw new Error(json.err)
+    }
+    return json
+  } catch (err) {
+    console.log(err)
+    throw err
+  }
+}
+
+export { signup, signin, getUser, signout, editUserProfile, getRepresentatives }
