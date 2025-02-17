@@ -4,12 +4,14 @@ import CheckboxFour from '../components/Checkboxes/CheckboxFour'
 import MultiSelect from '../components/Forms/MultiSelect'
 import SelectGroupOne from '../components/Forms/SelectGroup/SelectGroupOne'
 import { getRepresentatives } from '../services/authService'
+import { createEvent } from '../services/eventService'
+import { useNavigate } from 'react-router-dom'
 
 const NewEvent = ({ user, venues }) => {
   const getRep = async () => {
     return await getRepresentatives(user._id)
   }
-
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     eventName: '',
     description: '',
@@ -32,8 +34,9 @@ const NewEvent = ({ user, venues }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    console.log(formData)
     try {
-      const newEvent = await eventService.createEvent(formData)
+      const newEvent = await createEvent(formData)
       navigate('/')
     } catch (error) {
       console.log(error.message)
