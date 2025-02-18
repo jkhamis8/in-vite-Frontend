@@ -34,9 +34,10 @@ const NewEvent = ({ user, venues }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(formData)
     try {
-      const newEvent = await createEvent(formData)
+      console.log([formData,user._id]);
+      
+      const newEvent = await createEvent([formData,user._id])
       navigate('/')
     } catch (error) {
       console.log(error.message)

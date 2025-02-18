@@ -7,6 +7,8 @@ import DefaultLayout from './layout/DefaultLayout'
 import Home from './pages/Home'
 import Profile from './pages/Profile'
 import NewEvent from './pages/NewEvent'
+import NewVenue from './pages/NewVenue'
+import NewRepresentative from './pages/NewRepresentative'
 
 function App() {
   const [user, setUser] = useState(authService.getUser())
@@ -41,6 +43,8 @@ function App() {
                 // }
               />
               <Route path="/CreateEvent" element={<NewEvent user={user} />} />
+              <Route path="/CreateVenue" element={<NewVenue user={user} />} />
+              <Route path="/CreateRepresentative" element={<NewRepresentative user={user} />} />
               <Route path="*" element={<h3>Page Not Found</h3>} />
             </Routes>
           </DefaultLayout>
