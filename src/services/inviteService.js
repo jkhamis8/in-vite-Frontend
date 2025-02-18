@@ -11,7 +11,9 @@ const createInvite = async (formData) => {
     if (json.err) {
       throw new Error(json.err)
     }
-    return json
+    console.log('invitation event', json.eventObj)
+
+    return json.eventObj
   } catch (err) {
     console.log(err)
     throw err

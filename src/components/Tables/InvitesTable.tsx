@@ -119,7 +119,7 @@ const InvitesTable = (invites) => {
                   </div>
                 </td>
               </tr>
-            )) ) : ( <p>No invites found</p>)}
+            )) ) : ( null)}
           </tbody>
         </table>
       </div>

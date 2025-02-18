@@ -8,11 +8,10 @@ const Home = ({ events, user }) => {
   return (
     <div className="container mx-auto px-4">
       <h1 className="text-3xl font-bold my-4">Events</h1>
-      <div className="flex justify-end">
+      <div className="mb-10">
         {user.role === 'EventManager' && (
           <>
-            <Link to="/CreateEvent">Create Event</Link>
-            <Link to="/addGuest">Add Guest</Link>
+            <SuccessButton to="/EventForm" text="+ Create Event" />
           </>
         )}
       </div>

@@ -26,7 +26,7 @@ function App() {
     getEvents()
   }, [])
 
-  console.log(events)
+  console.log('app', events)
 
   return (
     <>
@@ -70,8 +70,8 @@ function App() {
                 element={<EventDetails user={user} events={events} />}
               />
               <Route
-                path="/addGuest"
-                element={<NewInvitation event={events[0]} user={user} />}
+                path="/addGuest/:id"
+                element={<NewInvitation events={events} user={user} />}
               />
               <Route path="*" element={<h3>Page Not Found</h3>} />
             </Routes>

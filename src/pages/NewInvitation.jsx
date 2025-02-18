@@ -1,9 +1,14 @@
 import { useState } from 'react'
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
 
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import { createInvite } from '../services/inviteService'
 
-const NewInvitation = ({ user, event }) => {
+const NewInvitation = ({ user, events }) => {
+  const { id } = useParams()
+  const event = events.find((event) => event._id === id)
+  console.log('event', events)
+
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     guestName: '',
@@ -26,7 +31,7 @@ const NewInvitation = ({ user, event }) => {
     console.log(formData)
     try {
       const newInvitation = await createInvite(formData)
-      navigate(`/${event._id}`)
+      navigate(`/EventDetails/${event._id}`)
     } catch (error) {
       console.log(error.message)
     }

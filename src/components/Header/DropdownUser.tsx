@@ -4,7 +4,7 @@ import ClickOutside from '../ClickOutside';
 import UserOne from '../../images/user/user-01.png';
 import { signout } from '../../services/authService';
 
-const DropdownUser = () => {
+const DropdownUser = (user) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate()
 
