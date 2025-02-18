@@ -10,8 +10,10 @@ const Home = ({ events, user }) => {
       <h1 className="text-3xl font-bold my-4">Events</h1>
       <div className="flex justify-end">
         {user.role === 'EventManager' && (
-          // <SuccessButton to={'/CreateEvent'} text={'Add Event'} />
-          <Link to="/CreateEvent">Create Event</Link>
+          <>
+            <Link to="/CreateEvent">Create Event</Link>
+            <Link to="/addGuest">Add Guest</Link>
+          </>
         )}
       </div>
       <div className="flex flex-wrap">
@@ -19,7 +21,6 @@ const Home = ({ events, user }) => {
           events.map((event) => <EventCard key={event._id} event={event} />)
         ) : (
           <p>You don't have any event yet!</p>
-          // {user.role === 'EventManager' && (<Link to="/eventManager">Create Event</Link>)}
         )}
       </div>
     </div>

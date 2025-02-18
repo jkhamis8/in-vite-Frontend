@@ -7,19 +7,24 @@ import DefaultLayout from './layout/DefaultLayout'
 import Home from './pages/Home'
 import Profile from './pages/Profile'
 import NewEvent from './pages/NewEvent'
+import NewInvitation from './pages/NewInvitation'
+import { getManagerEvents } from './services/eventService'
+import EventDetails from './pages/EventDetails'
 
 function App() {
   const [user, setUser] = useState(authService.getUser())
-  console.log('App User: ', user)
 
   const [events, setEvents] = useState([])
 
   useEffect(() => {
     const getEvents = async () => {
-      //get events from DB
+      const response = await getManagerEvents(user._id)
+      setEvents(response)
     }
+    getEvents()
   }, [])
-  const navigate = useNavigate()
+
+  console.log(events)
 
   return (
     <>
@@ -41,6 +46,14 @@ function App() {
                 // }
               />
               <Route path="/CreateEvent" element={<NewEvent user={user} />} />
+              <Route
+                path="/EventDetails/:id"
+                element={<EventDetails user={user} events={events} />}
+              />
+              <Route
+                path="/addGuest"
+                element={<NewInvitation event={events[0]} user={user} />}
+              />
               <Route path="*" element={<h3>Page Not Found</h3>} />
             </Routes>
           </DefaultLayout>

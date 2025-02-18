@@ -1,8 +1,8 @@
 const BACKEND_URL = import.meta.env.VITE_EXPRESS_BACKEND_URL
 
-const createEvent = async (formData) => {
+const createInvite = async (formData) => {
   try {
-    const res = await fetch(`${BACKEND_URL}/event/createEvent`, {
+    const res = await fetch(`${BACKEND_URL}/createInvite`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
@@ -18,9 +18,11 @@ const createEvent = async (formData) => {
   }
 }
 
-const getManagerEvents = async (userId) => {
+const getEventInvites = async (eventID) => {
   try {
-    const res = await fetch(`${BACKEND_URL}/event/getAllEvents/${userId}`)
+    const res = await fetch(
+      `${BACKEND_URL}/invitation/getAllInvites/${eventID}`
+    )
     const json = await res.json()
 
     if (json.err) {
@@ -33,4 +35,4 @@ const getManagerEvents = async (userId) => {
   }
 }
 
-export { createEvent, getManagerEvents }
+export { createInvite, getEventInvites }
