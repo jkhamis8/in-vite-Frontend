@@ -3,10 +3,11 @@ import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
 import CheckboxFour from '../components/Checkboxes/CheckboxFour'
 import MultiSelect from '../components/Forms/MultiSelect'
 import SelectGroupOne from '../components/Forms/SelectGroup/SelectGroupOne'
-import { createVenue } from '../services/venueService'
-import { useNavigate } from 'react-router-dom'
+import { createVenue,editVenue,getVenue } from '../services/venueService'
+import { useNavigate,useParams } from 'react-router-dom'
 
-const NewVenue = ({ user}) => {
+const VenueForm = ({ user}) => {
+  const {venueId} = useParams();
 
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
@@ -27,13 +28,36 @@ const NewVenue = ({ user}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    try {      
-      const newEvent = await createVenue([formData,user._id])
-      navigate('/')
-    } catch (error) {
-      console.log(error.message)
+    if(venueId){
+      try {
+        await editVenue(formData)
+        navigate('/')
+      } catch (error) {
+        console.log(`couldn't edit Venue, error in submit: ${error}`);
+      }
+      }else{
+      try {      
+        await createVenue([formData,user._id])
+        navigate('/')
+      } catch (error) {
+        console.log(error.message)
+      }
     }
   }
+
+  useEffect(() => {
+    const getVenueData = async() =>{
+      if(venueId){
+        try {
+        const response=await getVenue(venueId)
+        setFormData(response.venueObj)
+        } catch (error) {
+        console.log(`error in useEffect: ${error}`)
+        }
+      }
+    }
+    getVenueData()
+  }, [])
   return (
     <>
       <Breadcrumb pageName="Venue" />
@@ -113,7 +137,7 @@ const NewVenue = ({ user}) => {
               </div>
 
             <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-              Create Venue
+              Submit Venue
             </button>
           </div>
         </form>
@@ -122,4 +146,4 @@ const NewVenue = ({ user}) => {
   )
 }
 
-export default NewVenue
+export default VenueForm

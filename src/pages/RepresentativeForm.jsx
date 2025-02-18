@@ -3,11 +3,11 @@ import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
 import CheckboxFour from '../components/Checkboxes/CheckboxFour'
 import MultiSelect from '../components/Forms/MultiSelect'
 import SelectGroupOne from '../components/Forms/SelectGroup/SelectGroupOne'
-import { createRepresentative } from '../services/representativeService'
-import { useNavigate } from 'react-router-dom'
+import { getRepresentative, createRepresentative, editRepresentative  } from '../services/representativeService'
+import { useNavigate,useParams } from 'react-router-dom'
 
-const NewRepresentative = ({ user}) => {
-
+const RepresentativeForm = ({ user}) => {
+  const {representativeId} = useParams();  
   const navigate = useNavigate()
   const roles=[{'id':'Representative','value':'Representative'},{'id':'AttendanceScanner','value':'AttendanceScanner'}]
   const [formData, setFormData] = useState({
@@ -15,7 +15,7 @@ const NewRepresentative = ({ user}) => {
     password: '',
     fullName: '',
     email: '',
-    role: '',
+    role: 'Representative',
     eventManager:user._id
   })
 
@@ -29,13 +29,38 @@ const NewRepresentative = ({ user}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    try {      
-      const newEvent = await createRepresentative(formData)
-      navigate('/')
-    } catch (error) {
-      console.log(error.message)
-    }
+    if(representativeId){
+      try {
+        await editRepresentative(formData)
+        navigate('/')
+      } catch (error) {
+        console.log(`couldn't edit error in submit: ${error}`);
+      }
+      }else{
+        try {      
+          await createRepresentative(formData)
+          navigate('/')
+        } catch (error) {
+          console.log(error.message)
+        }
+      }
   }
+
+  useEffect(() => {
+    const getUserData = async() =>{
+      if(representativeId){
+        try {
+        const response=await getRepresentative(representativeId)
+        response.userObj.password=''
+        setFormData(response.userObj)
+        } catch (error) {
+        console.log(`error in useEffect: ${error}`)
+        }
+      }
+    }
+    getUserData()
+  }, [])
+
   return (
     <>
       <Breadcrumb pageName="Representative" />
@@ -100,7 +125,7 @@ const NewRepresentative = ({ user}) => {
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                 />
               </div>
-            <div className="w-full xl:w-1/2">
+            <div className="w-full xl:w-1/2 mb-2.5">
                 <label className="mb-2.5 block text-black dark:text-white">
                   Select Role
                 </label>
@@ -121,7 +146,7 @@ const NewRepresentative = ({ user}) => {
             </div>
 
             <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-              Create Representative
+              submit Representative
             </button>
           </div>
         </form>
@@ -130,4 +155,4 @@ const NewRepresentative = ({ user}) => {
   )
 }
 
-export default NewRepresentative
+export default RepresentativeForm
