@@ -22,7 +22,7 @@ const EventCard = ({ event }) => {
               : event.timeMinutes}
           </p>
           {event.venue && (
-            <p className="text-gray-700 text-base">Venue: {event.venue}</p>
+            <p className="text-gray-700 text-base">Venue: {event.venue.venueName}</p>
           )}
         </div>
       </div>

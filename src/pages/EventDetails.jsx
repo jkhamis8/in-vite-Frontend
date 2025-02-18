@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useParams,NavLink } from 'react-router-dom'
 import CardDataStats from '../components/CardDataStats'
 import InvitesTable from '../components/Tables/InvitesTable'
 import { getEventInvites } from '../services/inviteService'
@@ -6,10 +6,10 @@ import { useEffect, useState } from 'react'
 import { getRepresentatives } from '../services/authService'
 import RepresentativesTable from '../components/Tables/RepresentativesTable'
 
-const EventDetails = ({ user, events }) => {
+const EventDetails = ({events,setEventData }) => {
   const { id } = useParams()
   const event = events.find((event) => event._id === id)
-
+  setEventData(event)
   const [invites, setInvites] = useState([])
 
   useEffect(() => {
@@ -109,6 +109,7 @@ const EventDetails = ({ user, events }) => {
           </svg>
         </CardDataStats>
       </div>
+      <NavLink to={`/addGuest`}>Add an entry</NavLink>
 
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
         <div className="col-span-12">
