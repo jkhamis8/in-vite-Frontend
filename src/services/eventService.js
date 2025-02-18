@@ -1,5 +1,22 @@
 const BACKEND_URL = import.meta.env.VITE_EXPRESS_BACKEND_URL
 
+const getEvent = async (eventId) => {
+  try {
+    const res = await fetch(`${BACKEND_URL}/event/getEvent/${eventId}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    })
+    const json = await res.json()
+    if (json.err) {
+      throw new Error(json.err)
+    }
+    return json
+  } catch (err) {
+    console.log(err)
+    throw err
+  }
+}
+
 const createEvent = async (formData) => {
   try {
     const res = await fetch(`${BACKEND_URL}/event/createEvent`, {
@@ -33,4 +50,22 @@ const getManagerEvents = async (userId) => {
   }
 }
 
-export { createEvent, getManagerEvents }
+const editEvent = async (formData) => {
+  try {
+    const res = await fetch(`${BACKEND_URL}/event/editEvent`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    })
+    const json = await res.json()
+    if (json.err) {
+      throw new Error(json.err)
+    }
+    return json
+  } catch (err) {
+    console.log(err)
+    throw err
+  }
+}
+
+export { getEvent, createEvent, getManagerEvents, editEvent }

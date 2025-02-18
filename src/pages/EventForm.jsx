@@ -4,10 +4,11 @@ import CheckboxFour from '../components/Checkboxes/CheckboxFour'
 import MultiSelect from '../components/Forms/MultiSelect'
 import SelectGroupOne from '../components/Forms/SelectGroup/SelectGroupOne'
 import { getRepresentatives } from '../services/authService'
-import { createEvent } from '../services/eventService'
-import { useNavigate } from 'react-router-dom'
+import { createEvent,editEvent,getEvent } from '../services/eventService'
+import { useNavigate, useParams } from "react-router-dom"
 
-const NewEvent = ({ user, venues }) => {
+const EventForm = ({ user, venues }) => {
+  const {eventId} = useParams();
   const getRep = async () => {
     return await getRepresentatives(user._id)
   }
@@ -16,7 +17,6 @@ const NewEvent = ({ user, venues }) => {
     eventName: '',
     description: '',
     date: '',
-    time: '',
     locationType: 'venue',
     venue: '',
     addressLine: '',
@@ -25,6 +25,8 @@ const NewEvent = ({ user, venues }) => {
   })
 
   const handleChange = (e) => {
+    console.log(formData);
+    
     const { name, value } = e.target
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -34,15 +36,23 @@ const NewEvent = ({ user, venues }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(formData)
-    try {
-      const newEvent = await createEvent(formData)
-      navigate('/')
-    } catch (error) {
-      console.log(error.message)
+
+    if(eventId){
+      try {
+        await editEvent(formData)
+        navigate('/')
+      } catch (error) {
+        console.log(`couldn't edit Event, error in submit: ${error}`);
+      }
+    }else{
+      try {
+        await createEvent([formData,user._id])
+        navigate('/')
+      } catch (error) {
+        console.log(`couldn't add a new Event, error in submit: ${error}`);
+      }
     }
   }
-
   const hideSelect = formData.locationType !== 'venue'
 
   const [representatives, setRepresentatives] = useState([])
@@ -53,6 +63,20 @@ const NewEvent = ({ user, venues }) => {
       setRepresentatives(response.representatives)
     }
     getRepresentatives()
+    const getEvents = async() =>{
+      if(eventId){
+        try {
+        const response=await getEvent(eventId)
+        const now = new Date(response.eventObj.date);
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        response.eventObj.date = now.toISOString().slice(0,16);
+        setFormData(response.eventObj)
+        } catch (error) {
+        console.log(`error in useEffect: ${error}`)
+        }
+      }
+    }
+    getEvents()
   }, [])
 
   return (
@@ -97,25 +121,12 @@ const NewEvent = ({ user, venues }) => {
 
             <div className="mb-4.5">
               <label className="mb-2.5 block text-black dark:text-white">
-                Event Date (mm/dd/yyyy)
+                Event Date/Time (mm/dd/yyyy)
               </label>
               <input
-                type="date"
+                type="datetime-local"
                 name="date"
                 value={formData.date}
-                onChange={handleChange}
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-              />
-            </div>
-
-            <div className="mb-4.5">
-              <label className="mb-2.5 block text-black dark:text-white">
-                Event Time (hh:mm)
-              </label>
-              <input
-                type="time"
-                name="time"
-                value={formData.time}
                 onChange={handleChange}
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
               />
@@ -209,7 +220,7 @@ const NewEvent = ({ user, venues }) => {
             </div>
 
             <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-              Create Event
+              Submit Event
             </button>
           </div>
         </form>
@@ -218,4 +229,4 @@ const NewEvent = ({ user, venues }) => {
   )
 }
 
-export default NewEvent
+export default EventForm

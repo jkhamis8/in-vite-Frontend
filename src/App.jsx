@@ -6,7 +6,9 @@ import SignUp from './pages/SignUp'
 import DefaultLayout from './layout/DefaultLayout'
 import Home from './pages/Home'
 import Profile from './pages/Profile'
-import NewEvent from './pages/NewEvent'
+import EventForm from './pages/EventForm'
+import VenueForm from './pages/VenueForm'
+import RepresentativeForm from './pages/RepresentativeForm'
 import NewInvitation from './pages/NewInvitation'
 import { getManagerEvents } from './services/eventService'
 import EventDetails from './pages/EventDetails'
@@ -45,7 +47,24 @@ function App() {
                 //   <ProfileForm user={user} handleLogout={logOut} />
                 // }
               />
-              <Route path="/CreateEvent" element={<NewEvent user={user} />} />
+              <Route path="/EventForm" element={<EventForm user={user} />} />
+              <Route
+                path="/EventForm/:eventId"
+                element={<EventForm user={user} />}
+              />
+              <Route path="/VenueForm" element={<VenueForm user={user} />} />
+              <Route
+                path="/VenueForm/:venueId"
+                element={<VenueForm user={user} />}
+              />
+              <Route
+                path="/RepresentativeForm"
+                element={<RepresentativeForm user={user} />}
+              />
+              <Route
+                path="/RepresentativeForm/:representativeId"
+                element={<RepresentativeForm user={user} />}
+              />
               <Route
                 path="/EventDetails/:id"
                 element={<EventDetails user={user} events={events} />}
