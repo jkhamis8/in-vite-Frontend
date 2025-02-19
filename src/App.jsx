@@ -18,20 +18,14 @@ function App() {
   const [user, setUser] = useState(authService.getUser())
   const [eventData, setEventData] = useState([])
   const [events, setEvents] = useState([])
-  const getEvents = async () => {
-    const response = await getManagerEvents(user._id)
-    setEvents(response)
-  }
-  useEffect(() => {
-    getEvents()
-  }, [])
+
   return (
     <>
       <main>
         {authService.getUser() != null ? (
           <DefaultLayout setUser={setUser}>
             <Routes>
-              <Route path="/" element={<Home events={events} user={user} />} />
+              <Route path="/" element={<Home events={events} setEvents={setEvents} user={user} />} />
               <Route
                 path="/profile"
                 element={
