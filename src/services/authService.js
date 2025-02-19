@@ -73,7 +73,9 @@ const editUserProfile = async (formData) => {
 }
 
 const signout = () => {
+  const navigate = useNavigate()
   localStorage.clear()
+  navigate('/')
 }
 
 const getRepresentatives = async (id) => {

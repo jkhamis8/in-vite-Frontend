@@ -10,6 +10,7 @@ import EventForm from './pages/EventForm'
 import VenueForm from './pages/VenueForm'
 import RepresentativeForm from './pages/RepresentativeForm'
 import InvitationForm from './pages/InvitationForm'
+import RSVP from './pages/RSVP'
 import { getManagerEvents } from './services/eventService'
 import EventDetails from './pages/EventDetails'
 
@@ -41,9 +42,9 @@ function App() {
               />
               <Route
                 path="/editProfile"
-                // element={
-                //   <ProfileForm user={user} handleLogout={logOut} />
-                // }
+              // element={
+              //   <ProfileForm user={user} handleLogout={logOut} />
+              // }
               />
               <Route path="/EventForm" element={<EventForm user={user} />} />
               <Route
@@ -69,7 +70,7 @@ function App() {
               />
               <Route
                 path="/addGuest"
-                element={<InvitationForm eventData={eventData} user={user}  />}
+                element={<InvitationForm eventData={eventData} user={user} />}
               />
               <Route path="*" element={<h3>Page Not Found</h3>} />
             </Routes>
@@ -81,6 +82,10 @@ function App() {
             <Route
               path="/eventManager"
               element={<SignUp setUser={setUser} />}
+            />
+            <Route
+              path="/RSVP/:inviteId/:action"
+              element={<RSVP />}
             />
           </Routes>
         )}

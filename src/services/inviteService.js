@@ -35,4 +35,21 @@ const getEventInvites = async (eventID) => {
   }
 }
 
-export { createInvite, getEventInvites }
+const rsvpResponse = async (inviteId,action) => {
+  try {
+    const res = await fetch(
+      `${BACKEND_URL}/invitation/rsvpResponse/${inviteId}/${action}`
+    )
+    const json = await res.json()
+
+    if (json.err) {
+      throw new Error(json.err)
+    }
+    return json.eventObj
+  } catch (err) {
+    console.log(err)
+    throw err
+  }
+}
+
+export { createInvite, getEventInvites,rsvpResponse }
