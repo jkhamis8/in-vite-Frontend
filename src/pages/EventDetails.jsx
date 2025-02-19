@@ -11,7 +11,7 @@ import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
 const EventDetails = ({ events, setEventData }) => {
   const { id } = useParams()
   const event = events.find((event) => event._id === id)
-  setEventData(event)
+
   const [invites, setInvites] = useState([])
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const EventDetails = ({ events, setEventData }) => {
       const response = await getEventInvites(event._id)
       setInvites(response)
     }
-
+    setEventData(event)
     getInvites()
   }, [])
 
@@ -51,7 +51,7 @@ const EventDetails = ({ events, setEventData }) => {
               d="M9,22H19a1,1,0,0,0,0-2H9a1,1,0,0,0,0,2Z"
               class="clr-i-outline clr-i-outline-path-4"
             ></path>
-            <rect x="0" y="0" width="36" height="36" fill-opacity="0" />
+            <rect x="0" y="0" width="36" height="36" fillOpacity="0" />
           </svg>
         </CardDataStats>
         <CardDataStats
@@ -98,7 +98,7 @@ const EventDetails = ({ events, setEventData }) => {
       </div>
 
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-        {events.representatives && (
+        {event.representatives && (
           <div className="col-span-12">
             <RepresentativesTable representatives={event.representatives} />
           </div>
