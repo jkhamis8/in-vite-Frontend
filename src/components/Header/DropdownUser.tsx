@@ -8,14 +8,14 @@ const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate()
 
-  const handleSignout =() =>{
-    signout()
+  const handleSignout = () => {
+    localStorage.clear()
     navigate('/')
   }
 
   const user = localStorage.getItem('user')
-  
-  
+
+
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -83,7 +83,7 @@ const DropdownUser = () => {
                 My Profile
               </Link>
             </li>
-            </ul>
+          </ul>
           <button onClick={handleSignout} className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
             <svg
               className="fill-current"
