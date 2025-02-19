@@ -1,4 +1,4 @@
-import { Link, useParams, NavLink } from 'react-router-dom'
+import { useParams, NavLink } from 'react-router-dom'
 import CardDataStats from '../components/CardDataStats'
 import InvitesTable from '../components/Tables/InvitesTable'
 import { getEventInvites } from '../services/inviteService'

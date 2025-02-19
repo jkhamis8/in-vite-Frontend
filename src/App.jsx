@@ -25,7 +25,6 @@ function App() {
     }
     getEvents()
   }, [])
-
   return (
     <>
       <main>
