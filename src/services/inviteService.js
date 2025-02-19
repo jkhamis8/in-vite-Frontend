@@ -11,9 +11,7 @@ const createInvite = async (formData) => {
     if (json.err) {
       throw new Error(json.err)
     }
-    console.log('invitation event', json.eventObj)
-
-    return json.eventObj
+    return json
   } catch (err) {
     console.log(err)
     throw err
@@ -30,7 +28,7 @@ const getEventInvites = async (eventID) => {
     if (json.err) {
       throw new Error(json.err)
     }
-    return json.eventObj
+    return json.inviteObj
   } catch (err) {
     console.log(err)
     throw err
