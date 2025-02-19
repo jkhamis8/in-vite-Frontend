@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ClickOutside from '../ClickOutside';
-import UserOne from '../../images/user/user-01.png';
+import UserOne from '../../images/user/user.png';
 import { signout } from '../../services/authService';
 
 const DropdownUser = () => {
@@ -60,7 +60,7 @@ const DropdownUser = () => {
           <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark">
             <li>
               <Link
-                to="/profile"
+                to="#"
                 className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
               >
                 <svg
