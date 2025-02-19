@@ -1,20 +1,19 @@
 import { useState } from 'react'
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
-
-import { useNavigate, useParams } from 'react-router-dom'
 import { createInvite } from '../services/inviteService'
+import { useNavigate, useParams } from 'react-router-dom'
 
-const NewInvitation = ({ user, events }) => {
+const InvitationForm = ({ user, eventData }) => {
+  console.log(user, eventData)
   const { id } = useParams()
   const event = events.find((event) => event._id === id)
   console.log('event', events)
-
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     guestName: '',
     email: '',
     phone: '',
-    eventID: event._id,
+    eventID: eventData._id,
     createdBy: user._id
   })
 
@@ -30,8 +29,12 @@ const NewInvitation = ({ user, events }) => {
     e.preventDefault()
     console.log(formData)
     try {
-      const newInvitation = await createInvite(formData)
-      navigate(`/EventDetails/${event._id}`)
+      const createdInvite = await createInvite(formData)
+      if (createdInvite.error) {
+        console.log(user.error)
+      } else {
+        navigate(`/EventDetails/${eventData._id}`)
+      }
     } catch (error) {
       console.log(error.message)
     }
@@ -39,7 +42,7 @@ const NewInvitation = ({ user, events }) => {
 
   return (
     <>
-      <Breadcrumb pageName={`Invitation For ${event.eventName}`} />
+      <Breadcrumb pageName={`Invitation For ${eventData.eventName}`} />
 
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
@@ -100,4 +103,4 @@ const NewInvitation = ({ user, events }) => {
   )
 }
 
-export default NewInvitation
+export default InvitationForm

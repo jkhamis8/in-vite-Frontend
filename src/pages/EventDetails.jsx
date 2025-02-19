@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, NavLink } from 'react-router-dom'
 import CardDataStats from '../components/CardDataStats'
 import InvitesTable from '../components/Tables/InvitesTable'
 import { getEventInvites } from '../services/inviteService'
@@ -9,10 +9,10 @@ import SuccessButton from '../components/SuccessButton'
 import WarningButton from '../components/WarningButton'
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
 
-const EventDetails = ({ user, events }) => {
+const EventDetails = ({ events, setEventData }) => {
   const { id } = useParams()
   const event = events.find((event) => event._id === id)
-
+  setEventData(event)
   const [invites, setInvites] = useState([])
 
   useEffect(() => {
@@ -91,6 +91,7 @@ const EventDetails = ({ user, events }) => {
           value={event.description}
         ></CardDataStats> */}
       </div>
+      <NavLink to={`/addGuest`}>Add an entry</NavLink>
 
       <SuccessButton to={`/addGuest/${event._id}`} text="+ Invite" />
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">

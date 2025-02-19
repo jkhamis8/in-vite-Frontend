@@ -4,15 +4,15 @@ import CheckboxFour from '../components/Checkboxes/CheckboxFour'
 import MultiSelect from '../components/Forms/MultiSelect'
 import SelectGroupOne from '../components/Forms/SelectGroup/SelectGroupOne'
 import { getRepresentatives } from '../services/authService'
+import { getAllVenues } from '../services/venueService'
 import { createEvent,editEvent,getEvent } from '../services/eventService'
 import { useNavigate, useParams } from "react-router-dom"
 
-const EventForm = ({ user, venues }) => {
-  const {eventId} = useParams();
-  const getRep = async () => {
-    return await getRepresentatives(user._id)
-  }
+const EventForm = ({ user }) => {
   const navigate = useNavigate()
+  const {eventId} = useParams();
+  const [representatives, setRepresentatives] = useState([])
+  const [venues, setVenues] = useState([])
   const [formData, setFormData] = useState({
     eventName: '',
     description: '',
@@ -23,10 +23,9 @@ const EventForm = ({ user, venues }) => {
     locationURL: '',
     representatives: []
   })
+  const hideSelect = formData.locationType !== 'venue'
 
   const handleChange = (e) => {
-    console.log(formData);
-    
     const { name, value } = e.target
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -53,16 +52,20 @@ const EventForm = ({ user, venues }) => {
       }
     }
   }
-  const hideSelect = formData.locationType !== 'venue'
-
-  const [representatives, setRepresentatives] = useState([])
 
   useEffect(() => {
-    const getRepresentatives = async () => {
-      const response = await getRep()
+    const getVenues = async () => {
+      const response = await getAllVenues()
+      setVenues(response.venueObj)
+    }
+    getVenues()
+
+    const getRepresentativesOptions = async () => {
+      const response = await getRepresentatives(user._id)
       setRepresentatives(response.representatives)
     }
-    getRepresentatives()
+    getRepresentativesOptions()
+
     const getEvents = async() =>{
       if(eventId){
         try {
@@ -77,8 +80,9 @@ const EventForm = ({ user, venues }) => {
       }
     }
     getEvents()
-  }, [])
 
+  }, [])
+  
   return (
     <>
       <Breadcrumb pageName="Event" />
@@ -161,15 +165,20 @@ const EventForm = ({ user, venues }) => {
                 <label className="mb-2.5 block text-black dark:text-white">
                   Select Venue
                 </label>
-                <SelectGroupOne
-                  list={venues}
-                  onChange={(value) =>
-                    setFormData((prevFormData) => ({
-                      ...prevFormData,
-                      venue: value
-                    }))
-                  }
-                />
+              <select name='venue'onChange={handleChange}
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                >
+                <option key={''} value={''} className="text-body dark:text-bodydark">{''}</option>
+                {venues?.map((item) => (
+                  <option
+                    key={item._id}
+                    value={item._id}
+                    className="text-body dark:text-bodydark"
+                  >
+                    {item.venueName}
+                  </option>
+                ))}
+                </select>
               </div>
             )}
 
@@ -206,17 +215,20 @@ const EventForm = ({ user, venues }) => {
             )}
 
             <div className="w-full xl:w-1/2">
-              <MultiSelect
-                id="multiSelect"
-                list={representatives}
-                listLabel="Add Representatives"
-                onChange={(selectedOptions) =>
-                  setFormData((prevFormData) => ({
-                    ...prevFormData,
-                    representatives: selectedOptions
-                  }))
-                }
-              />
+              <select name='representatives'onChange={handleChange} multiple
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                >
+                <option key={''} value={''} className="text-body dark:text-bodydark">{''}</option>
+                {representatives?.map((item) => (
+                  <option
+                    key={item._id}
+                    value={item._id}
+                    className="text-body dark:text-bodydark"
+                  >
+                    {item.fullName}
+                  </option>
+                ))}
+                </select>
             </div>
 
             <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">

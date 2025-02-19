@@ -1,5 +1,22 @@
 const BACKEND_URL = import.meta.env.VITE_EXPRESS_BACKEND_URL
 
+const getAllVenues = async () => {
+  try {
+    const res = await fetch(`${BACKEND_URL}/venue/getAllVenues/`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const json = await res.json();
+    if (json.err) {
+      throw new Error(json.err);
+    }
+    return json;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
 const getVenue = async (venueId) => {
   try {
     const res = await fetch(`${BACKEND_URL}/venue/getVenue/${venueId}`, {
@@ -53,4 +70,4 @@ const editVenue = async (formData) => {
   }
 };
 
-export { getVenue, createVenue, editVenue }
+export { getAllVenues,getVenue, createVenue, editVenue }

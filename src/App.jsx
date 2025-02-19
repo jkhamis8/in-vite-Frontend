@@ -9,13 +9,13 @@ import Profile from './pages/Profile'
 import EventForm from './pages/EventForm'
 import VenueForm from './pages/VenueForm'
 import RepresentativeForm from './pages/RepresentativeForm'
-import NewInvitation from './pages/NewInvitation'
+import InvitationForm from './pages/InvitationForm'
 import { getManagerEvents } from './services/eventService'
 import EventDetails from './pages/EventDetails'
 
 function App() {
   const [user, setUser] = useState(authService.getUser())
-
+  const [eventData, setEventData] = useState([])
   const [events, setEvents] = useState([])
 
   useEffect(() => {
@@ -25,8 +25,6 @@ function App() {
     }
     getEvents()
   }, [])
-
-  console.log('app', events)
 
   return (
     <>
@@ -67,11 +65,17 @@ function App() {
               />
               <Route
                 path="/EventDetails/:id"
-                element={<EventDetails user={user} events={events} />}
+                element={
+                  <EventDetails
+                    user={user}
+                    events={events}
+                    setEventData={setEventData}
+                  />
+                }
               />
               <Route
-                path="/addGuest/:id"
-                element={<NewInvitation events={events} user={user} />}
+                path="/addGuest"
+                element={<InvitationForm eventData={eventData} user={user} />}
               />
               <Route path="*" element={<h3>Page Not Found</h3>} />
             </Routes>
