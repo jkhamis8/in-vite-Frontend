@@ -1,13 +1,10 @@
 import { useState } from 'react'
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
 import { createInvite } from '../services/inviteService'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 const InvitationForm = ({ user, eventData }) => {
-  console.log(user, eventData)
-  const { id } = useParams()
-  const event = events.find((event) => event._id === id)
-  console.log('event', events)
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     guestName: '',
@@ -27,16 +24,25 @@ const InvitationForm = ({ user, eventData }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(formData)
     try {
       const createdInvite = await createInvite(formData)
       if (createdInvite.error) {
-        console.log(user.error)
+        console.log(createdInvite.error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: createdInvite.error
+        })
       } else {
         navigate(`/EventDetails/${eventData._id}`)
       }
     } catch (error) {
-      console.log(error.message)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: error
+      })
+      console.log(error)
     }
   }
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-
+import { getEventInvites } from '../services/inviteService'
 const EventCard = ({ event }) => {
   const [count, setCount] = useState(0)
 

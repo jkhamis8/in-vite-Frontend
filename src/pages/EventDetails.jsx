@@ -3,7 +3,6 @@ import CardDataStats from '../components/CardDataStats'
 import InvitesTable from '../components/Tables/InvitesTable'
 import { getEventInvites } from '../services/inviteService'
 import { useEffect, useState } from 'react'
-import { getRepresentatives } from '../services/authService'
 import RepresentativesTable from '../components/Tables/RepresentativesTable'
 import SuccessButton from '../components/SuccessButton'
 import WarningButton from '../components/WarningButton'
@@ -91,9 +90,7 @@ const EventDetails = ({ events, setEventData }) => {
           value={event.description}
         ></CardDataStats> */}
       </div>
-      <NavLink to={`/addGuest`}>Add an entry</NavLink>
-
-      <SuccessButton to={`/addGuest/${event._id}`} text="+ Invite" />
+      <SuccessButton to={`/addGuest`} text="+ Invite" />
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
         <div className="col-span-12">
           <InvitesTable invites={invites} />
